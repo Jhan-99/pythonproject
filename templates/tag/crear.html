@@ -1,0 +1,470 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+         <form method="post" action="">
+            {% csrf_token %}
+            {% if error %}
+            <h3>{{error}}</h3>
+            {% else %}
+                         
+         
+                <!-- ============================================================== -->
+                <!-- Variables control -->
+                <div class="row">
+                            <div class="col-lg-12">
+                            <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                 <div class="col-lg-3">
+                                    <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Control variable</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                                        </div>
+                                     
+                                    <!-- contenido-->
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text">Nombre:</span>
+                                      </div>
+                                      <input type="text" id="nombre_var" name="nombre_var" aria-label="nombre_var" class="form-control" required>
+                                    </div>              
+                                        
+                                     <div class="input-group">
+                                          <select class="custom-select" id="cfg_tipo" name="cfg_tipo" aria-label="cfg_tipo">
+                                            <option selected>Tipo...</option>
+                                            <option value="mth">mth</option>
+                                            <option value="rtu">rtu</option>
+                                          </select>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-3"><!-- habilitacion--><br><br>
+                                       <div class="input-group-append">
+                                            <div class="custom-control custom-checkbox">
+                                              <input type="checkbox" class="custom-control-input" id="cfg_hab_var" name="cfg_hab_var" value="1">
+                                              <label class="custom-control-label" for="cfg_hab_var">Habilitación</label>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-3"><!-- simulacion-->    
+                                  <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Simulación</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                                        </div>
+                                        
+                                    <div class="input-group-append">
+                                     <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_sim" name="cfg_hab_sim" value="1">
+                                      <label class="custom-control-label" for="cfg_hab_sim">Simulación</label>
+                                    </div>
+                                     </div>
+                                        
+                                    </div>
+
+                                 <div class="col-lg-3"><!-- simulacion sda parte-->
+                                    <div class="form-group">
+                                      <div class="col-12">
+                                        <input class="form-control" type="number" value="42" id="cfg_cmd_sim" name="cfg_cmd_sim">
+                                      </div>
+                                    </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                
+                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Parametrización variable</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                
+                                </div>
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="cfg_min_raw" class="col-4 col-form-label">Min Raw:</label>
+                                  <div class="col-4">
+                                    <input class="form-control" type="number" value="0.0" id="cfg_min_raw" name="cfg_min_raw">
+                                  </div>
+                                </div>      
+                                <div class="form-group row">
+                                  <label for="cfg_max_raw" class="col-4 col-form-label">Max Raw:</label>
+                                  <div class="col-4">
+                                    <input class="form-control" type="number" value="100.0" id="cfg_max_raw" name="cfg_max_raw">
+                                  </div>
+                                </div>
+                                        
+                                    </div>         
+                                <!-- column -->
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="cfg_min_eu" class="col-4 col-form-label">Min Eu:</label>
+                                  <div class=" ">
+                                    <input class="form-control" type="number" value="00.0" id="cfg_min_eu" name="cfg_min_eu">
+                                  </div>
+                                </div>      
+                                <div class="form-group row">
+                                  <label for="cfg_max_eu" class="col-4 col-form-label">Max Eu:</label>
+                                  <div class="">
+                                    <input class="form-control" type="number" value="100.0" id="cfg_max_eu" name="cfg_max_eu">
+                                  </div>
+                                </div>
+                                        
+                                    </div>                         
+                            <div class="col-lg-4">
+                                        <div class="input-group row">
+                                         <label for="cfg_unidad" class="col-4 col-form-label">Unidad:</label>
+                                          <select class="custom-select" id="cfg_unidad" name="cfg_unidad" aria-label="cfg_unidad">
+                                            <option selected>Tipo...</option>
+                                            <option value="unit">unit</option>
+                                          </select>
+                                      </div>
+                                
+                                    </div>
+       
+                                    <!-- column -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Alarmas</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                
+                                </div>
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-lg-3">
+                                  <div class="form-group row">
+                                  
+                                  <div class="col-10">
+                                    <input class="form-control" type="number" value="0.0" id="cfg_sp_alarma_ll" name="cfg_sp_alarma_ll">
+                                  </div>
+                                </div>      
+                                <div class="form-group row">
+                                
+                                  <div class="col-10">
+                                    <input class="form-control" type="number" value="0.0" id="cfg_sp_alarma_l" name="cfg_sp_alarma_l">
+                                  </div>
+                                </div>
+                                        
+                                    </div>         
+                                <!-- column -->
+                                    <div class="col-lg-3">
+                                  <div class="form-group row">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="cfg_sp_alarma_hh" name="cfg_sp_alarma_hh" value="1">
+                                      <label class="custom-control-label" for="cfg_sp_alarma_hh">Alarma HH:</label>
+                                    </div>
+                                </div>     <br> 
+                                <div class="form-group row">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="cfg_sp_alarma_h" name="cfg_sp_alarma_h" value="1">
+                                      <label class="custom-control-label" for="cfg_sp_alarma_h">Alarma H:</label>
+                                    </div>
+                                </div>  
+                                    </div>             
+                                    
+                                <div class="col-lg-3">
+                                  <div class="form-group row">
+                                  
+                                  <div class="col-10">
+                                    <input class="form-control" type="number" value="0.0" id="cfg_hab_alarma_ll" name="cfg_hab_alarma_ll">
+                                  </div>
+                                </div>      
+                                <div class="form-group row">
+                                
+                                  <div class="col-10">
+                                    <input class="form-control" type="number" value="0.0" id="cfg_hab_alarma_l" name="cfg_hab_alarma_l">
+                                  </div>
+                                </div>
+                                        
+                                    </div>      
+                                    
+                            <div class="col-lg-3">
+                                  <div class="form-group row">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_alarma_h" name="cfg_hab_alarma_h" value="1">
+                                      <label class="custom-control-label" for="cfg_hab_alarma_h">Alarma H:</label>
+                                    </div>
+                                </div><br>
+                                <div class="form-group row">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_alarma_hh" name="cfg_hab_alarma_hh" value="">
+                                      <label class="custom-control-label" for="cfg_hab_alarma_hh">Alarma HH:</label>
+                                    </div>
+                                </div>
+                                        
+                                    </div>                         
+ 
+       
+                                    <!-- column -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- parametrización comunicación-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Parametrización comunicación</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                
+                                </div>
+                                <div class="row" id="ip_puerto_fila_mth">
+                                    <!-- column -->
+                                <div class="col-lg-2">
+                                  <div class="form-group">
+                                  <div class=" ">
+                                    <input class="form-control" type="number" value="255" id="ip_1">
+                                  </div>
+                                </div> 
+                                    </div>           
+                            <div class="col-lg-2">
+                                  <div class="form-group">
+                                  <div class=" ">
+                                    <input class="form-control" type="number" value="255" id="ip_2">
+                                  </div>
+                                </div> 
+                                    </div>            
+                             <div class="col-lg-2">
+                                  <div class="form-group">
+                                  <div class=" ">
+                                    <input class="form-control" type="number" value="255" id="ip_3">
+                                  </div>
+                                </div> 
+                                    </div>       
+                            <div class="col-lg-2">
+                                  <div class="form-group">
+                                  <div class=" ">
+                                    <input class="form-control" type="number" value="255" id="ip_4">
+                                      <input class="form-control" type="text" name="cfg_ip" id="cfg_ip" value="255.555">
+                                  </div>
+                                </div> 
+                                    </div>         
+                                <!-- column -->
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="puerto" class="col-3 col-form-label">Puerto:</label>
+                                  <div class="col-4">
+                                    <input class="form-control" type="number" value="502" id="cfg_mth_puerto" name="cfg_mth_puerto">
+                                  </div>
+                                </div>      
+                                    </div>  
+       
+                                    <!-- column -->
+                                </div>
+                                <!-- si elige rtu-->
+                                <div class="row" id="ip_puerto_fila_rtu" style="display:none;">
+                                    <!-- column -->
+                                <div class="col-lg-6">
+                                  <div class="form-group row">
+                                        <label for="baudios" class="col-4 col-form-label">Baudios:</label>
+                                          <select class="custom-select" id="cfg_rtu_baud" name="cfg_rtu_baud" aria-label="cfg_rtu_baud">
+                                            <option value="9600">9600</option>
+                                          </select>
+                                </div> 
+                                    </div>             
+             
+            
+                                <!-- column -->
+                        
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                        <label for="puerto_rtu" class="col-4 col-form-label">Puerto:</label>
+                                          <select class="custom-select" id="cfg_rtu_puerto" name="cfg_rtu_puerto" aria-label="cfg_rtu_puerto">
+                                            <option value="8N1">8N1</option>
+                                          </select>
+                                </div>      
+                                    </div>  
+       
+                                    <!-- column -->
+                                </div>
+                                <div class="row">
+                                <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="esclavo" class="col-4 col-form-label">Esclavo:</label>
+                                  <div class="col-6">
+                                    <input class="form-control" type="number" value="0" id="cfg_esclavo" name="cfg_esclavo">
+                                  </div>
+                                </div>      
+                                    </div>        
+                                <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="registro" class="col-4 col-form-label">Registro:</label>
+                                  <div class="col-6">
+                                    <input class="form-control" type="number" value="0" id="cfg_reg" name="cfg_reg">
+                                  </div>
+                                </div>      
+                                    </div>          
+                                    
+                            <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="formato" class="col-3 col-form-label">Formato:</label>
+                                  <div class="col-6">
+                                        <select class="custom-select" id="cfg_formato" name="cfg_formato" aria-label="cfg_formato">
+                                            <option value="1">word16</option>
+                                          </select>
+                                  </div>
+                                </div>      
+                                    </div>      
+                                
+         
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+             <!-- ESTADO COMUNICACIÓN-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Estado comunicación</h4>
+                                        <!--<h5 class="card-subtitle">Overview of Latest Month</h5> -->
+                                    </div>
+                
+                                </div>
+                                <div class="row">
+                                    <!-- column -->
+                             <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="sts_data_raw" class="col-4 col-form-label">Sts Dato Raw:</label>
+                                  <div class="col-10">
+                                    <input class="form-control" type="text" value="0.0" id="sts_data_raw" name="sts_data_raw">
+                                  </div>
+                                </div>      
+                                    </div>          
+                            
+                            <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="sts_data_eu" class="col-4 col-form-label">Sts Dato Eu:</label>
+                                  <div class="col-10">
+                                    <input class="form-control" type="text" value="0.0" id="sts_data_eu" name="sts_data_eu">
+                                  </div>
+                                </div>      
+                                    </div>                   
+                             <div class="col-lg-4">
+                                  <div class="form-group row">
+                                  <label for="sts_falla_io" class="col-4 col-form-label">Sts_falla_io:</label>
+                                  <div class="col-10">
+                                    <input class="form-control" type="text" value="0.0" id="sts_falla_io" name="sts_falla_io">
+                                  </div>
+                                </div>      
+                                    </div>          
+                                </div>
+                                
+                                <div class="row">
+                             <div class="col-lg-2">
+                                  <div class="form-group">
+                                    <div class="custom-control">
+                                      <label class=" " for="alarmas">Alarmas:</label>
+                                    </div>
+                                </div>      
+                                    </div> 
+                             <div class="col-lg-1">
+                                  <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_hh" name="sts_alarma_hh" value="1">
+                                      <label class="custom-control-label" for="sts_alarma_hh">HH</label>
+                                    </div>
+                                </div>      
+                                    </div>                 
+                            <div class="col-lg-1">
+                                  <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_h" name="sts_alarma_h" value="1">
+                                      <label class="custom-control-label" for="sts_alarma_h">H</label>
+                                    </div>
+                                </div>      
+                                    </div>            
+                            
+                                <div class="col-lg-1">
+                                  <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_l" name="sts_alarma_l" value="1">
+                                      <label class="custom-control-label" for="sts_alarma_l">L</label>
+                                    </div>
+                                </div>      
+                                    </div>                
+                            <div class="col-lg-1">
+                                  <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_ll" name="sts_alarma_ll" value="1">
+                                      <label class="custom-control-label" for="sts_alarma_ll">LL</label>
+                                    </div>
+                                </div>      
+                                    </div>             
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+  
+             
+             
+            <button class="btn btn-info" type="submit">Crear</button>
+            <a href="{% url 'tag:listar' %}">Ver tags</a>
+            {% endif %}
+            </form>
+ 
+        </div>
+   {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       
+       {% endblock extrajs %}   
+    
+</html>

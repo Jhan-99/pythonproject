@@ -1,0 +1,32 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+            <form method="post" action="">
+            {% csrf_token %}
+                <h5>Seguro que desea eliminar el tag : <b> {{ tags.nombre_var}} </b>?</h5>
+                <button type="submit" class="btn red">Si</button>
+                <a href="{% url 'tag:listar' %}" class="btn white black-text">No</a>
+            </form>
+ 
+        </div>
+   {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       
+       {% endblock extrajs %}   
+    
+</html>

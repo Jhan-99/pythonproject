@@ -1,0 +1,58 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+                                        {% if tag %}
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial">#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Habilitación</th>
+                                                    <th>Tipo</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    {% for data in tag %}
+                                                <tr>
+                                         <td class="serial">{{data.id}}</td>
+                                        <td>{{data.nombre_var}}</td>
+                                        <td>{{data.cfg_hab_var}}</td>
+                                        <td>{{data.cfg_tipo}}</td>          
+                                        <td>
+                                       <a class="blue-text"href="{% url 'tag:editar' data.id %}"><span class="badge badge-complete">Editar</span></a>
+                                       <a class="red-text" href="{% url 'tag:eliminar' data.id %}"><span class="badge badge-pending">Eliminar</span></a>    
+                                        </td>
+                        
+                                                 
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                            {% else %}
+                        <h5>No hay tags.</h5>
+                        {% endif %}
+ 
+        </div>
+   {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       
+       {% endblock extrajs %}   
+    
+</html>
