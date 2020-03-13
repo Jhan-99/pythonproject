@@ -15,13 +15,10 @@
         <div class="container-fluid">
          <form method="post" action="">
             {% csrf_token %}
-            {% if error %}
-            <h3>{{error}}</h3>
-            {% else %}
                
-                            {{ tag_form.nombre_var }}  
-                                <input type="submit" value="Editar" class="btn">
-               
+            {% if dataset %}
+            
+            {% for entry in dataset %}
          
                 <!-- ============================================================== -->
                 <!-- Variables control -->
@@ -43,12 +40,13 @@
                                       <div class="input-group-prepend">
                                         <span class="input-group-text">Nombre:</span>
                                       </div>
-                                      <input type="text" id="nombre_var" name="nombre_var" aria-label="nombre_var" class="form-control" value="">
+                                        <input type="hidden" name="id" id="id_var" value="{{ entry.id }} ">
+                                      <input type="text" id="nombre_var" name="nombre_var" aria-label="nombre_var" class="form-control" value="{{ entry.nombre_var }}" required>
                                     </div>              
                                         
                                      <div class="input-group">
-                                          <select class="custom-select" id="cfg_tipo" name="cfg_tipo" aria-label="cfg_tipo">
-                                            <option selected>Tipo...</option>
+                                          <select class="custom-select" id="cfg_tipo" name="cfg_tipo" aria-label="cfg_tipo" required>
+                                            <option selected value="{{ entry.cfg_tipo }}">{{ entry.cfg_tipo }}</option>
                                             <option value="mth">mth</option>
                                             <option value="rtu">rtu</option>
                                           </select>
@@ -58,7 +56,11 @@
                                     <div class="col-lg-3"><!-- habilitacion--><br><br>
                                        <div class="input-group-append">
                                             <div class="custom-control custom-checkbox">
-                                              <input type="checkbox" class="custom-control-input" id="cfg_hab_var" name="cfg_hab_var" value="1">
+                                                 {% if entry.cfg_hab_var == 1   %}
+                                              <input type="checkbox" checked class="custom-control-input chk" id="cfg_hab_var" name="cfg_hab_var" value="{{ entry.cfg_hab_var }}">
+                                                {% else %}
+                                                <input type="checkbox" class="custom-control-input chk" id="cfg_hab_var" name="cfg_hab_var" value="{{ entry.cfg_hab_var }}">
+                                                {% endif%}
                                               <label class="custom-control-label" for="cfg_hab_var">Habilitación</label>
                                             </div>
                                           </div>
@@ -74,7 +76,12 @@
                                         
                                     <div class="input-group-append">
                                      <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_sim" name="cfg_hab_sim" value="1">
+                                         {% if entry.cfg_hab_sim == 1   %}
+                                         <input type="checkbox" checked class="custom-control-input chk" id="cfg_hab_sim" name="cfg_hab_sim" value="{{ entry.cfg_hab_sim }}">
+                                         {% else %}
+                                         <input type="checkbox" class="custom-control-input chk" id="cfg_hab_sim" name="cfg_hab_sim" value="{{ entry.cfg_hab_sim }}">
+                                         {% endif%}
+                                      
                                       <label class="custom-control-label" for="cfg_hab_sim">Simulación</label>
                                     </div>
                                      </div>
@@ -84,7 +91,7 @@
                                  <div class="col-lg-3"><!-- simulacion sda parte-->
                                     <div class="form-group">
                                       <div class="col-12">
-                                        <input class="form-control" type="number" value="42" id="cfg_cmd_sim" name="cfg_cmd_sim">
+                                        <input class="form-control" type="number" value="{{ entry.cfg_cmd_sim|stringformat:'.0f' }}" id="cfg_cmd_sim" name="cfg_cmd_sim" required>
                                       </div>
                                     </div>
                                         
@@ -114,13 +121,13 @@
                                   <div class="form-group row">
                                   <label for="cfg_min_raw" class="col-4 col-form-label">Min Raw:</label>
                                   <div class="col-4">
-                                    <input class="form-control" type="number" value="0.0" id="cfg_min_raw" name="cfg_min_raw">
+                                    <input class="form-control" type="number" value="{{entry.cfg_min_raw|stringformat:'.0f'}}" id="cfg_min_raw" name="cfg_min_raw" required>
                                   </div>
                                 </div>      
                                 <div class="form-group row">
                                   <label for="cfg_max_raw" class="col-4 col-form-label">Max Raw:</label>
                                   <div class="col-4">
-                                    <input class="form-control" type="number" value="100.0" id="cfg_max_raw" name="cfg_max_raw">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_max_raw|stringformat:'.0f' }}" id="cfg_max_raw" name="cfg_max_raw" required>
                                   </div>
                                 </div>
                                         
@@ -129,14 +136,14 @@
                                     <div class="col-lg-4">
                                   <div class="form-group row">
                                   <label for="cfg_min_eu" class="col-4 col-form-label">Min Eu:</label>
-                                  <div class=" ">
-                                    <input class="form-control" type="number" value="00.0" id="cfg_min_eu" name="cfg_min_eu">
+                                  <div class=" col-4">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_min_eu|stringformat:'.0f' }}" id="cfg_min_eu" name="cfg_min_eu" required>
                                   </div>
                                 </div>      
                                 <div class="form-group row">
                                   <label for="cfg_max_eu" class="col-4 col-form-label">Max Eu:</label>
-                                  <div class="">
-                                    <input class="form-control" type="number" value="100.0" id="cfg_max_eu" name="cfg_max_eu">
+                                  <div class="col-4">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_max_eu|stringformat:'.0f' }}" id="cfg_max_eu" name="cfg_max_eu" required>
                                   </div>
                                 </div>
                                         
@@ -144,8 +151,8 @@
                             <div class="col-lg-4">
                                         <div class="input-group row">
                                          <label for="cfg_unidad" class="col-4 col-form-label">Unidad:</label>
-                                          <select class="custom-select" id="cfg_unidad" name="cfg_unidad" aria-label="cfg_unidad">
-                                            <option selected>Tipo...</option>
+                                          <select class="custom-select" id="cfg_unidad" name="cfg_unidad" aria-label="cfg_unidad" required>
+                                            <option selected value="{{ entry.cfg_unidad }}">{{ entry.cfg_unidad }}</option>
                                             <option value="unit">unit</option>
                                           </select>
                                       </div>
@@ -177,13 +184,13 @@
                                   <div class="form-group row">
                                   
                                   <div class="col-10">
-                                    <input class="form-control" type="number" value="0.0" id="cfg_sp_alarma_ll" name="cfg_sp_alarma_ll">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_sp_alarma_ll|stringformat:'.0f' }}" id="cfg_sp_alarma_ll" name="cfg_sp_alarma_ll" required>
                                   </div>
                                 </div>      
                                 <div class="form-group row">
                                 
                                   <div class="col-10">
-                                    <input class="form-control" type="number" value="0.0" id="cfg_sp_alarma_l" name="cfg_sp_alarma_l">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_sp_alarma_l|stringformat:'.0f' }}" id="cfg_sp_alarma_l" name="cfg_sp_alarma_l" required>
                                   </div>
                                 </div>
                                         
@@ -192,13 +199,21 @@
                                     <div class="col-lg-3">
                                   <div class="form-group row">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="cfg_sp_alarma_hh" name="cfg_sp_alarma_hh" value="1">
+                                        {% if entry.cfg_sp_alarma_hh == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="cfg_sp_alarma_hh" name="cfg_sp_alarma_hh" value="{{ entry.cfg_sp_alarma_hh }}">
+                                        {% else %}
+                                        <input type="checkbox" class="custom-control-input chk" id="cfg_sp_alarma_hh" name="cfg_sp_alarma_hh" value="{{ entry.cfg_sp_alarma_hh }}">
+                                        {%endif%}
                                       <label class="custom-control-label" for="cfg_sp_alarma_hh">Alarma HH:</label>
                                     </div>
                                 </div>     <br> 
                                 <div class="form-group row">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="cfg_sp_alarma_h" name="cfg_sp_alarma_h" value="1">
+                                        {% if entry.cfg_sp_alarma_h == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="cfg_sp_alarma_h" name="cfg_sp_alarma_h" value="{{ entry.cfg_sp_alarma_h }}">
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="cfg_sp_alarma_h" name="cfg_sp_alarma_h" value="{{ entry.cfg_sp_alarma_h }}">
+                                        {%endif%}
                                       <label class="custom-control-label" for="cfg_sp_alarma_h">Alarma H:</label>
                                     </div>
                                 </div>  
@@ -208,13 +223,13 @@
                                   <div class="form-group row">
                                   
                                   <div class="col-10">
-                                    <input class="form-control" type="number" value="0.0" id="cfg_hab_alarma_ll" name="cfg_hab_alarma_ll">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_hab_alarma_ll|stringformat:'.0f' }}" id="cfg_hab_alarma_ll" name="cfg_hab_alarma_ll" required>
                                   </div>
                                 </div>      
                                 <div class="form-group row">
                                 
                                   <div class="col-10">
-                                    <input class="form-control" type="number" value="0.0" id="cfg_hab_alarma_l" name="cfg_hab_alarma_l">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_hab_alarma_l|stringformat:'.0f' }}" id="cfg_hab_alarma_l" name="cfg_hab_alarma_l" required>
                                   </div>
                                 </div>
                                         
@@ -223,14 +238,22 @@
                             <div class="col-lg-3">
                                   <div class="form-group row">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_alarma_h" name="cfg_hab_alarma_h" value="1">
-                                      <label class="custom-control-label" for="cfg_hab_alarma_h">Alarma H:</label>
+                                        {% if entry.cfg_hab_alarma_h == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="cfg_hab_alarma_h" name="cfg_hab_alarma_h" value="{{ entry.cfg_hab_alarma_h }}">
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="cfg_hab_alarma_h" name="cfg_hab_alarma_h" value="{{ entry.cfg_hab_alarma_h }}">
+                                        {%endif%}
+                                      <label class="custom-control-label" for="cfg_hab_alarma_h">Alarma Hab H:</label>
                                     </div>
                                 </div><br>
                                 <div class="form-group row">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="cfg_hab_alarma_hh" name="cfg_hab_alarma_hh" value="">
-                                      <label class="custom-control-label" for="cfg_hab_alarma_hh">Alarma HH:</label>
+                                        {% if entry.cfg_hab_alarma_hh == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="cfg_hab_alarma_hh" name="cfg_hab_alarma_hh" value="{{ entry.cfg_hab_alarma_hh }}">
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="cfg_hab_alarma_hh" name="cfg_hab_alarma_hh" value="{{ entry.cfg_hab_alarma_hh }}">
+                                        {%endif%}
+                                      <label class="custom-control-label" for="cfg_hab_alarma_hh">Alarma Hab HH:</label>
                                     </div>
                                 </div>
                                         
@@ -256,43 +279,25 @@
                                     </div>
                 
                                 </div>
+                                
                                 <div class="row" id="ip_puerto_fila_mth">
                                     <!-- column -->
-                                <div class="col-lg-2">
+                            
+                  
+                            <div class="col-lg-7">
                                   <div class="form-group">
-                                  <div class=" ">
-                                    <input class="form-control" type="number" value="255" id="ip_1">
-                                  </div>
-                                </div> 
-                                    </div>           
-                            <div class="col-lg-2">
-                                  <div class="form-group">
-                                  <div class=" ">
-                                    <input class="form-control" type="number" value="255" id="ip_2">
-                                  </div>
-                                </div> 
-                                    </div>            
-                             <div class="col-lg-2">
-                                  <div class="form-group">
-                                  <div class=" ">
-                                    <input class="form-control" type="number" value="255" id="ip_3">
-                                  </div>
-                                </div> 
-                                    </div>       
-                            <div class="col-lg-2">
-                                  <div class="form-group">
-                                  <div class=" ">
-                                    <input class="form-control" type="number" value="255" id="ip_4">
-                                      <input class="form-control" type="text" name="cfg_ip" id="cfg_ip" value="255.555">
+                                    <label for="ip_equipo" class="col-7 col-form-label">Ip del equipo:</label>
+                                  <div class="">
+                                       <input class="form-control" type="text" name="cfg_ip" id="ip_equipo" value="{{ entry.cfg_ip }}">
                                   </div>
                                 </div> 
                                     </div>         
                                 <!-- column -->
-                                    <div class="col-lg-4">
-                                  <div class="form-group row">
-                                  <label for="puerto" class="col-3 col-form-label">Puerto:</label>
-                                  <div class="col-4">
-                                    <input class="form-control" type="number" value="502" id="cfg_mth_puerto" name="cfg_mth_puerto">
+                                    <div class="col-lg-5">
+                                  <div class="form-group">
+                                  <label for="puerto" class="col-5 col-form-label">Puerto:</label>
+                                  <div class="">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_mth_puerto }}" id="cfg_mth_puerto" name="cfg_mth_puerto" required>
                                   </div>
                                 </div>      
                                     </div>  
@@ -300,13 +305,14 @@
                                     <!-- column -->
                                 </div>
                                 <!-- si elige rtu-->
+                                
                                 <div class="row" id="ip_puerto_fila_rtu" style="display:none;">
                                     <!-- column -->
                                 <div class="col-lg-6">
                                   <div class="form-group row">
                                         <label for="baudios" class="col-4 col-form-label">Baudios:</label>
-                                          <select class="custom-select" id="cfg_rtu_baud" name="cfg_rtu_baud" aria-label="cfg_rtu_baud">
-                                            <option value="9600">9600</option>
+                                          <select class="custom-select" id="cfg_rtu_baud" name="cfg_rtu_baud" aria-label="cfg_rtu_baud" required>
+                                            <option value="{{ entry.cfg_rtu_baud }}">{{ entry.cfg_rtu_baud }}</option>
                                           </select>
                                 </div> 
                                     </div>             
@@ -317,7 +323,8 @@
                                     <div class="col-lg-4">
                                   <div class="form-group row">
                                         <label for="puerto_rtu" class="col-4 col-form-label">Puerto:</label>
-                                          <select class="custom-select" id="cfg_rtu_puerto" name="cfg_rtu_puerto" aria-label="cfg_rtu_puerto">
+                                          <select class="custom-select" id="cfg_rtu_puerto" name="cfg_rtu_puerto" aria-label="cfg_rtu_puerto" required>
+                                            <option value="{{ entry.cfg_rtu_puerto }}">{{ entry.cfg_rtu_puerto }}</option>
                                             <option value="8N1">8N1</option>
                                           </select>
                                 </div>      
@@ -325,12 +332,13 @@
        
                                     <!-- column -->
                                 </div>
+                                
                                 <div class="row">
                                 <div class="col-lg-4">
                                   <div class="form-group row">
                                   <label for="esclavo" class="col-4 col-form-label">Esclavo:</label>
                                   <div class="col-6">
-                                    <input class="form-control" type="number" value="0" id="cfg_esclavo" name="cfg_esclavo">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_esclavo|stringformat:'.0f' }}" id="cfg_esclavo" name="cfg_esclavo" required>
                                   </div>
                                 </div>      
                                     </div>        
@@ -338,7 +346,7 @@
                                   <div class="form-group row">
                                   <label for="registro" class="col-4 col-form-label">Registro:</label>
                                   <div class="col-6">
-                                    <input class="form-control" type="number" value="0" id="cfg_reg" name="cfg_reg">
+                                    <input class="form-control" type="number" value="{{ entry.cfg_reg|stringformat:'.0f' }}" id="cfg_reg" name="cfg_reg" required>
                                   </div>
                                 </div>      
                                     </div>          
@@ -347,8 +355,9 @@
                                   <div class="form-group row">
                                   <label for="formato" class="col-3 col-form-label">Formato:</label>
                                   <div class="col-6">
-                                        <select class="custom-select" id="cfg_formato" name="cfg_formato" aria-label="cfg_formato">
-                                            <option value="1">word16</option>
+                                        <select class="custom-select" id="cfg_formato" name="cfg_formato" aria-label="cfg_formato" required>
+                                            <option value="{{ entry.cfg_formato }}">{{ entry.cfg_formato }}</option>
+                                            <option value="word16">word16</option>
                                           </select>
                                   </div>
                                 </div>      
@@ -381,7 +390,7 @@
                                   <div class="form-group row">
                                   <label for="sts_data_raw" class="col-4 col-form-label">Sts Dato Raw:</label>
                                   <div class="col-10">
-                                    <input class="form-control" type="text" value="0.0" id="sts_data_raw" name="sts_data_raw">
+                                    <input class="form-control" type="number" value="{{ entry.sts_data_raw|stringformat:'.0f' }}" id="sts_data_raw" name="sts_data_raw" required>
                                   </div>
                                 </div>      
                                     </div>          
@@ -390,7 +399,7 @@
                                   <div class="form-group row">
                                   <label for="sts_data_eu" class="col-4 col-form-label">Sts Dato Eu:</label>
                                   <div class="col-10">
-                                    <input class="form-control" type="text" value="0.0" id="sts_data_eu" name="sts_data_eu">
+                                    <input class="form-control" type="number" value="{{ entry.sts_data_eu|stringformat:'.0f' }}" id="sts_data_eu" name="sts_data_eu" required>
                                   </div>
                                 </div>      
                                     </div>                   
@@ -398,7 +407,7 @@
                                   <div class="form-group row">
                                   <label for="sts_falla_io" class="col-4 col-form-label">Sts_falla_io:</label>
                                   <div class="col-10">
-                                    <input class="form-control" type="text" value="0.0" id="sts_falla_io" name="sts_falla_io">
+                                    <input class="form-control" type="number" value="{{ entry.sts_falla_io|stringformat:'.0f' }}" id="sts_falla_io" name="sts_falla_io" required>
                                   </div>
                                 </div>      
                                     </div>          
@@ -415,7 +424,11 @@
                              <div class="col-lg-1">
                                   <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_hh" name="sts_alarma_hh" value="1">
+                                        {% if entry.sts_alarma_hh == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="sts_alarma_hh" name="sts_alarma_hh" value="{{ entry.sts_alarma_hh }}">
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="sts_alarma_hh" name="sts_alarma_hh" value="{{ entry.sts_alarma_hh }}">
+                                        {%endif%}
                                       <label class="custom-control-label" for="sts_alarma_hh">HH</label>
                                     </div>
                                 </div>      
@@ -423,7 +436,11 @@
                             <div class="col-lg-1">
                                   <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_h" name="sts_alarma_h" value="1">
+                                        {% if entry.sts_alarma_h == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="sts_alarma_h" name="sts_alarma_h" value="{{ entry.sts_alarma_h }}">
+                                        {%else%}
+                                        <input type="checkbox"  class="custom-control-input chk" id="sts_alarma_h" name="sts_alarma_h" value="{{ entry.sts_alarma_h }}">
+                                        {%endif%}
                                       <label class="custom-control-label" for="sts_alarma_h">H</label>
                                     </div>
                                 </div>      
@@ -432,7 +449,11 @@
                                 <div class="col-lg-1">
                                   <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_l" name="sts_alarma_l" value="1">
+                                        {% if entry.sts_alarma_l == 1   %}
+                                      <input type="checkbox" checked class="custom-control-input chk" id="sts_alarma_l" name="sts_alarma_l" value="{{ entry.sts_alarma_l }}">
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="sts_alarma_l" name="sts_alarma_l" value="{{ entry.sts_alarma_l }}">
+                                        {%endif%}
                                       <label class="custom-control-label" for="sts_alarma_l">L</label>
                                     </div>
                                 </div>      
@@ -440,7 +461,11 @@
                             <div class="col-lg-1">
                                   <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input" id="sts_alarma_ll" name="sts_alarma_ll" value="1">
+                                        {% if entry.sts_alarma_ll == 1   %}
+                                      <input type="checkbox"checked class="custom-control-input chk " id="sts_alarma_ll" name="sts_alarma_ll" value="{{ entry.sts_alarma_ll }}" > 
+                                        {%else%}
+                                        <input type="checkbox" class="custom-control-input chk" id="sts_alarma_ll" name="sts_alarma_ll" value="{{ entry.sts_alarma_ll }}" > 
+                                        {%endif%}
                                       <label class="custom-control-label" for="sts_alarma_ll">LL</label>
                                     </div>
                                 </div>      
@@ -456,11 +481,15 @@
   
              
              
-            <button class="btn btn-info" type="submit">Crear</button>
-            <a href="{% url 'tag:listar' %}">Ver tags</a>
-            {% endif %}
+            <button class="btn btn-info" type="submit">Actualizar</button>
+       
             </form>
- 
+            {% endfor %}
+            
+            {% else %}
+            <p>No hay datos para esta variable</p>
+            {% endif %}
+            
         </div>
    {% endblock contenido %}
        {% endblock body %}   

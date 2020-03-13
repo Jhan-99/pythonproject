@@ -13,13 +13,27 @@
     </header>    
    {% block contenido %}
         <div class="container-fluid">
+            
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class=" ">
+                            <div class="card-body">
+                                <a  href="{% url 'tag:crear'%}" class="btn btn-info">Crear +</a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
                                         {% if tag %}
-                                        <table class="table ">
+                                        <table class="table tbl_vars">
                                             <thead>
                                                 <tr>
                                                     <th class="serial">#</th>
                                                     <th>Nombre</th>
-                                                    <th>Habilitación</th>
+                                    
                                                     <th>Tipo</th>
                                                     <th>Acción</th>
                                                 </tr>
@@ -27,13 +41,16 @@
                                             <tbody>
                                                     {% for data in tag %}
                                                 <tr>
+    
                                          <td class="serial">{{data.id}}</td>
                                         <td>{{data.nombre_var}}</td>
-                                        <td>{{data.cfg_hab_var}}</td>
+                        
                                         <td>{{data.cfg_tipo}}</td>          
                                         <td>
+                                        <a class="blue-text"href="{% url 'tag:info' data.id %}"><span class="badge badge-complete">Info</span></a>
                                        <a class="blue-text"href="{% url 'tag:editar' data.id %}"><span class="badge badge-complete">Editar</span></a>
                                        <a class="red-text" href="{% url 'tag:eliminar' data.id %}"><span class="badge badge-pending">Eliminar</span></a>    
+                                      
                                         </td>
                         
                                                  

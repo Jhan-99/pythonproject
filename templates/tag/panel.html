@@ -1,0 +1,54 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <div id="grap1"></div>
+<script>
+  Highcharts.chart('grap1', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Datos Variable'
+      },
+      xAxis: {
+          categories: ['1','2']
+           //{% for entry in dataset %}'{{ entry.nombre }} {{ entry.fecha_hora }}  '{% if not forloop.last %}, {% endif %}{% endfor %},
+           //{% for entry in dataset1 %}'{{ entry.nombre }} {{ entry.fecha_hora }}  '{% if not forloop.last %}, {% endif %}{% endfor %}
+          //]
+      },
+      series: [{
+          name: 'Variables'
+          data: [{% for entry in dataset %}{{ entry.valor }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+            //{% for entry in dataset1 %}{{ entry.valor }}{% if not forloop.last %}, {% endif %}{% endfor %}
+      }, {
+          name: 'Variables22'
+          data: [{% for entry in dataset1 %}{{ entry.valor }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+          //colors: ['green','red','blue','yellow']
+      }]
+  });
+</script>
+ 
+        </div>
+   {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       
+       {% endblock extrajs %}   
+    
+</html>
+

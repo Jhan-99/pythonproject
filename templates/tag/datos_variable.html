@@ -1,0 +1,384 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Datos variable</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+            
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class=" ">
+                            <div class="card-body">
+                                
+                               <div class="row" align="right">  
+                                   <span id="datas_n"></span>
+                                   <span id="datas"></span>
+                                   <a href="#" id="quot">Comillas</a>
+                                   <table class="table">
+                                       <thead>
+                                           <tr>
+                                               <th>Variable</th>
+                                               <th>Acción</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody id="local_vars">
+                                       
+                                       </tbody>
+                                   </table>
+                                <form class="col-md-12" action="{%url 'tag:traer'%}" id="elementos" method="post">
+                                        {% csrf_token %}
+                                    <div class="row" align="right">
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                        <select class="custom-select" id="tipo_graf" name="tipo_graf" aria-label="cfg_formato" required>
+                                            <option value="">Tipo</option>
+                                            <!-- <option value="column">Columna</option> -->
+                                            <option value="line">Linea</option>
+                                            <option value="bar">Barras</option>
+                                          </select>
+                                        </div>
+                                        </div>
+                                    <div class="col-lg-4">
+                                  <div class="form-group row">
+                                    <button type="submit" class="btn btn-warning">Construir el gráfico</button><br>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                                      
+                      
+                                   </form>  
+                                </div>
+                                <div align="right">
+                                    <form method="post" action="{% url 'tag:dv' 0%}" id="frm_grafica">
+                                        {% csrf_token %}
+                                        {% if data_vars %}
+                                         
+                                            <input type="hidden" id="selected_var" value="{ name: `{{dt}}`, data: [{% for entry in data_vars %}{{ entry.valor|stringformat:'.1f' }}{% if not forloop.last %}, {% endif %}{% endfor %}], color: `{{color_var}}` }">        
+                                        
+                                        <input type="hidden" id="selected_dates" name="selected_dates" value="{% for dates in data_vars %}`{{ dates.fecha_hora }}` {% if not forloop.last %}, {% endif %}{% endfor %}">
+                                     
+                                   
+                                        {%else%}
+                                    <div class="row">
+                                    <div class="col-lg-10">
+                                  <div class="form-group row">
+                                      <p class="alert alert-danger" role="alert">No se pudo asignar la variable 
+                                            " {{dt}} ", Compruebe que el rango de fechas coincida en la base de datos.</p>
+                                      
+                                        </div>
+                                        </div>
+                                        </div>
+                                      
+                                        {%endif%}
+                                        <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="form-group row">
+                                  <label for="formato" class="col-6  col-form-label">Forma de selección:</label>
+                                  <div class="col-12">
+                                      <input type="hidden" id="val_obtencion" name="val_obtencion">
+                                        <select class="custom-select" id="forma_obtencion" name="forma_obtencion" aria-label="forma_obtencion" required>
+                                            <option value="date_range">Rango de fechas</option>
+                                            <option value="absolute_range">Rango absoluto</option>
+                                          </select>
+                                  </div>
+                                </div> 
+                                    </div>  
+                                        </div>
+                                        
+                                        <div class="row">
+                               
+                                <div class="col-lg-2">
+                                  <div class="form-group row">
+                                      <input type="hidden" id="val_time_obtencion" name="val_time_obtencion">
+                                    <select class="custom-select" id="absolute_range" name="absolute_range" aria-label="cfg_formato" required>
+                                            <option value="">Elige</option>
+                                            <option value="one_month_ago">Hace 1 meses</option>
+                                            <option value="two_months_ago">Hace 2 meses</option>
+                                            <option value="one_year_ago">Hace 1 año</option>
+                                      </select>
+                                        </div>
+
+                                      </div>                               
+                                <div class="col-lg-3">
+                                  <div class="form-group row">
+                                       <input type="date" required  name="from_date" class="datepicker form-control" value="{{from_date}}" placeholder="Fecha inicio">
+                                        </div>
+
+                                      </div>
+                                    <div class="col-lg-3">
+                                  <div class="form-group row">
+                                       <input type="date" required name="to_date" class="datepicker form-control" value="{{to_date}}" placeholder="Fecha fin">
+                                        </div>
+                                      </div>  
+ 
+                                            
+                                <div class="col-lg-1">
+                                  <div class="form-group row">
+                                       <input type="number" value="10" name="filas_add" placeholder="No. registros" class="form-control" required>
+                                        </div>
+                                      </div>         
+                                    <div class="col-lg-2">
+                                  <div class="form-group row">
+                                       <input type="text"  readonly name="var_added" id="var_added" class="form-control" required value="">
+                                        </div>
+                                      </div>           
+                                <div class="col-lg-1">
+                                  <div class="form-group row">
+                               
+                                      <input type="submit" class="btn btn-warning" value="Enviar">
+                                        </div>
+                                      </div>
+                                            
+                                        </div>
+                                        
+                                    </form>
+                                    
+ 
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
+                                        {% if datos_variable %}
+                                        <table class="table tbl_vars">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial">[]</th>
+                                                    <th class="serial">#</th>
+                                                    <th>Nombre</th>                                    
+                                                    <th>Tipo</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    {% for data in datos_variable %}
+                                                <tr>
+                                            <td>
+                            
+                                    <a class="red-text" var-name="{{data.nombre_var}}" href="#" id="add_graf"><i class="mdi mdi-chart-bar"></i> Agregar</a>          
+                                    </td>
+                                        <td class="serial">{{data.id}}</td>
+                                        <td>{{data.nombre_var}}</td>
+                                        <td>{{data.cfg_tipo}}</td>    
+                                        
+                                        <td>
+                                        <a class="red-text" href="{% url 'tag:dv' data.nombre_var %}"><i class="mdi mdi-chart-bar"></i></a>    
+                                      
+                                        </td>
+                        
+                                                 
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                            {% else %}
+                        <h5>No hay tags.</h5>
+                        {% endif %}
+ 
+        </div>
+   {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+        <script>
+            $(document).ready(function(){ 
+              
+                var variable = $("#selected_var").val();
+                if (localStorage.getItem("variable1") == "undefined"){
+                    localStorage.setItem("variable1", "");    
+                }
+                if (localStorage.getItem("variable2") == "undefined"){
+                    localStorage.setItem("variable2", "");
+                }
+                if (localStorage.getItem("variable3") == "undefined"){
+                    localStorage.setItem("variable3", "");
+                }
+                if (localStorage.getItem("variable4") == "undefined"){
+                    localStorage.setItem("variable4", ""); 
+                }      
+                
+                if (localStorage.getItem("variable5") == "undefined"){
+                    localStorage.setItem("variable5", "");     
+                    
+                }
+                
+                var var1  = localStorage.getItem("variable1");
+                var var2  = localStorage.getItem("variable2");
+                var var3  = localStorage.getItem("variable3");
+                var var4  = localStorage.getItem("variable4");
+                var var5  = localStorage.getItem("variable5");
+                
+                if (var1 == null || var1 == "undefined" || var1 == ""){
+                    localStorage.setItem("variable1", variable); 
+                    localStorage.setItem("n_var1", "{{dt}}"); 
+                }   
+                else if (var2 == null || var2 == "undefined" || var2 == ""){
+                    localStorage.setItem("variable2", variable); 
+                    localStorage.setItem("n_var2", "{{dt}}"); 
+                }     
+                
+                else if (var3 == null || var3 == "undefined" || var3 == ""){
+                    localStorage.setItem("variable3", variable);
+                    localStorage.setItem("n_var3", "{{dt}}"); 
+                }       
+                
+                else if (var4 == null || var4 == "undefined" || var4 == ""){
+                    localStorage.setItem("variable4", variable); 
+                    localStorage.setItem("n_var4", "{{dt}}");
+                }        
+                else if (var5 == null || var5 == "undefined" || var5 == ""){
+                    localStorage.setItem("variable5", variable); 
+                    localStorage.setItem("n_var5", "{{dt}}");
+                }else{
+                    alert("No se pueden agregar más variables")
+                        localStorage.clear("variable1");   
+                        localStorage.clear("variable2");
+                        localStorage.clear("variable3");  
+                        localStorage.clear("variable4"); 
+                        localStorage.clear("variable5");
+                }
+
+              function extraer_nombres(){
+ 
+                var v1_name = localStorage.getItem("n_var1"); 
+                var v2_name = localStorage.getItem("n_var2"); 
+                var v3_name = localStorage.getItem("n_var3"); 
+                var v4_name = localStorage.getItem("n_var4"); 
+                var v5_name = localStorage.getItem("n_var5");   
+                $("#local_vars").html('<tr><td>'+v1_name+'</td><td> </td></tr> <tr><td>'+v2_name+'</td><td> </td></tr> <tr><td>'+v3_name+'</td><td> </td></tr><tr><td>'+v4_name+'</td><td> </td></tr> <tr><td>'+v5_name+'</td><td> </td></tr>  ');
+                  
+              } extraer_nombres();
+                
+                function inser_default_values(){
+   
+                    var forma_obtencion = $("#forma_obtencion").val();
+                    var texto = "";
+                    if (localStorage.getItem("forma_obtencion") == "date_range"){
+                        texto = "Rango de fechas";
+                    }else if(localStorage.getItem("forma_obtencion") == "absolute_range"){
+                            texto = "Rango absoluto";
+                    }else{
+                        texto = "Elige";
+                    }
+                    $("#forma_obtencion").append('<option selected value="'+localStorage.getItem("forma_obtencion")+'">'+texto+'</option>');
+                    $("#val_obtencion").val(localStorage.getItem("forma_obtencion"));
+
+                    
+                    var text_obsolute_range = "";
+                    if (localStorage.getItem("absolute_range") == "one_month_ago"){
+                        text_obsolute_range = "Hace 1 mes";
+                    }else if (localStorage.getItem("absolute_range") == "two_months_ago"){
+                         text_obsolute_range = "Hace 2 meses";
+                    }else if (localStorage.getItem("absolute_range") == "one_year_ago"){
+                        text_obsolute_range = "Hace 1 año";
+                    }else{
+                        text_obsolute_range = "Elige";
+                    }
+                    $("#absolute_range").append('<option selected value="'+localStorage.getItem("absolute_range")+'">'+text_obsolute_range+'</option>');
+                    $("#val_time_obtencion").val(localStorage.getItem("absolute_range"));
+                }inser_default_values();
+                
+              $(document).on('change', '#forma_obtencion', function(){ 
+                    var forma_obtencion = $(this).val();
+                    if($("#val_obtencion") == ""){
+                        $("#val_obtencion").val(forma_obtencion);    
+                    }else{
+                        if(confirm('Para cambiar la forma en que se obtienen los datos , debe quitar todas la variables de la lista, ¿Quiere reiniciarlas?')) {
+                        localStorage.clear("variable1");   
+                        localStorage.clear("variable2");
+                        localStorage.clear("variable3");  
+                        localStorage.clear("variable4"); 
+                        localStorage.clear("variable5");
+                        $("#val_obtencion").val(forma_obtencion);        
+                        $("#local_vars").html('');
+                        }else{
+                            return false;
+                        }
+                     
+                    }
+                    
+                    localStorage.setItem("forma_obtencion", forma_obtencion); 
+              });            
+                
+                $(document).on('change', '#absolute_range', function(){ 
+                    var absolute_range = $(this).val();
+                    var forma_obtencion = $("#forma_obtencion").val();
+                    if (forma_obtencion == "absolute_range"){
+                        if(confirm('Si ya tienes variables asignadas con un filtro anterior , puede alterar la lectura de los  valores en los gráficos. ¿Desea continuar?')){
+                            $("#val_time_obtencion").val(absolute_range);
+                            localStorage.setItem("absolute_range", absolute_range);         
+                        }else{
+                            return false;
+                        }
+                    }else{
+                            return false;
+                    }
+                    
+                   
+              });
+                
+              $(document).on('change', '#tipo_graf', function(){  
+                  add_inputs();
+              });    
+                
+                $(document).on('click', '#add_graf', function(e){  
+                    e.preventDefault();
+                  var variable_graficar = $(this).attr('var-name');
+                  $("#var_added").val(variable_graficar);
+                    
+              });
+                
+               function add_inputs () {  
+                var selected_dates   = $("#selected_dates").val();
+                var fechas  = localStorage.getItem("selected_dates");
+           
+                $("#elementos").append('<input type="text" name="s_dates" value="'+selected_dates+'" >');
+                var var1  = localStorage.getItem("variable1");
+                var var2  = localStorage.getItem("variable2");
+                var var3  = localStorage.getItem("variable3");
+                var var4  = localStorage.getItem("variable4");
+                var var5  = localStorage.getItem("variable5");
+                  
+                if ( var1 !== "" && var1 !== "undefined" && var1 !== null){
+                 $("#elementos").append('<input type="hidden" name="vars[]" value="'+var1+'" >');
+                }             
+                if ( var2 !== "" && var2 !== "undefined" && var2 !== null){
+                $("#elementos").append('<input type="hidden" name="vars[]" value="'+var2+'" >');
+                }             
+                  
+                if ( var3 !== "" && var3 !== "undefined" && var3 !== null){
+                $("#elementos").append('<input type="hidden" name="vars[]" value="'+var3+'" >');
+                }      
+                  
+                if ( var4 !== "" && var4 !== "undefined" && var4 !== null){
+                $("#elementos").append('<input type="hidden" name="vars[]" value="'+var4+'" >');
+                }                  
+                if ( var5 !== "" && var5 !== "undefined" && var5 !== null){
+                $("#elementos").append('<input type="hidden" name="vars[]" value="'+var5+'" >');
+                }
+                  
+              }
+                
+              });
+            
+
+        </script>
+       {% endblock extrajs %}   
+    
+</html>

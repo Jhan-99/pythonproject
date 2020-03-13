@@ -1,0 +1,415 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+            
+                <!-- BOTONES DE ACCION -->
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Graficando: </h4>
+                                        <h5 class="card-subtitle">Visión general</h5>
+                                    </div>
+    
+                                </div>
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-lg-12">
+                                     
+                                    </div>
+                                    <div class="col-lg-12">
+                                        {% if array %}
+                                        <span>Line Chart</span>
+                                        {%else%}
+                                        <span>No hay datos para gráficar</span>
+                                        {%endif%}
+                                        <div class="" id="grap1"></div>
+                                    </div>
+                                    <!-- column -->
+                                </div>
+                                
+                                <div class="row">   
+                                <div id="gr_line1"  class="col-lg-6" style=""></div>
+                                <div id="gr_line2" class="col-lg-6" style=""></div>
+                                <div id="gr_line3" class="col-lg-6" style=""></div>
+                                <div id="gr_line4" class="col-lg-6" style=""></div>
+                                <div id="gr_line5" class="col-lg-12" style=""></div>
+                              </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+ 
+                </div>
+                
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- title -->
+ 
+                                <!-- title -->
+                            </div>
+                            <div class="table-responsive">
+                                 <div id="grap2"></div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+                
+            <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+ 
+                            </div>
+                            <div class="table-responsive">
+                                 <div id="grap4"></div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+       {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       <script>
+    $(document).ready(function(){           
+    Highcharts.chart('grap1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Variable Multiple'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ 
+        
+        {% for entry in array %}{{ entry }}{% if not forloop.last %}, {% endif %}{% endfor %}
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+            
+    var n_var1  = localStorage.getItem("n_var1");                    
+    var var1  = localStorage.getItem("variable1");        
+    if ( var1 !== "" && var1 !== "undefined" && var1 !== null){
+   
+     Highcharts.chart('gr_line1', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+                text: '"'+n_var1+'"'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ {% if array %}{{ array.0 }}{% endif %} 
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+        }
+         
+    var var2  = localStorage.getItem("variable2");            
+    var n_var2  = localStorage.getItem("n_var2");            
+    if ( var1 !== "" && var1 !== "undefined" && var2 !== null){
+        
+        Highcharts.chart('gr_line2', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: '"'+n_var2+'"'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ {% if array %}{{ array.1 }}{% endif %} 
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+    }        
+        
+    var var3  = localStorage.getItem("variable3");            
+    var n_var3  = localStorage.getItem("n_var3");            
+    if ( var3 !== "" && var3 !== "undefined" && var3 !== null){
+        
+        Highcharts.chart('gr_line3', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '"'+n_var3+'"'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ {% if array %}{{ array.2 }}{% endif %} 
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+    }     
+        
+    var var4  = localStorage.getItem("variable4");            
+    var n_var4  = localStorage.getItem("n_var4");            
+    if ( var4 !== "" && var4 !== "undefined" && var4 !== null){
+        
+        Highcharts.chart('gr_line4', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '"'+n_var4+'"'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ {% if array %}{{ array.3 }}{% endif %} 
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+    }   
+        
+    var var5  = localStorage.getItem("variable5");            
+    var n_var5  = localStorage.getItem("n_var5");            
+    if ( var5 !== "" && var5 !== "undefined" && var5 !== null){
+        
+        Highcharts.chart('gr_line5', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '"'+n_var5+'"'
+    },
+
+    subtitle: {
+        text: 'Source: ccciot'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Valores'
+        }
+    },
+    xAxis: {
+        categories: [{% if s_dates %} {{s_dates}} {%endif%}]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+ 
+
+    series: [ {% if array %}{{ array.4 }}{% endif %} 
+ ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+    }        
+            
+            
+        });
+    
+    </script>
+       {% endblock extrajs %}   
+
+    
+</html>

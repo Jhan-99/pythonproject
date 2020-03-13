@@ -1,0 +1,131 @@
+<!-- el sistema de plantillas debe hererdar al template original a heredar -->
+      {% extends 'tag/index.html'%} <!-- realizar la herencia a mi archivo principal-->  
+    <!-- BLOQUE PARA EL TITULO DE LA PÁGINA-->
+       {% block titulo %}  
+        Creación de autores
+       {% endblock titulo %}   
+    <!-- BLOQUE PARA el BODY DE ESTA PÁGINA-->
+       {% block body %}  
+      <header>
+      <h4>Tag</h4>  
+              
+
+    </header>    
+   {% block contenido %}
+        <div class="container-fluid">
+            
+                <!-- BOTONES DE ACCION -->
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Graficando: {% if nombre_var %} {{nombre_var}}{%else%}No name{%endif%}</h4>
+                                        <h5 class="card-subtitle">Visión general</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-lg-12">
+                                        <div class="" id="grap1"></div>
+                                    </div>
+                                    <!-- column -->
+                                </div>    
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-lg-12">
+                                        <div class="" id="grap2"></div>
+                                    </div>
+                                    <!-- column -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ 
+                </div>
+                
+        
+                
+            <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+ 
+                            </div>
+                            <div class="table-responsive">
+                                 <div id="grap4"></div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+       {% endblock contenido %}
+       {% endblock body %}   
+ 
+        <!-- BLOQUE PARA LOS JS EXTRAS-->
+       {% block extrajs %}  
+       <script>
+        $(document).ready(function(){  
+              $(document).on('change', '#cfg_tipo', function(){
+ 
+              });
+ 
+            
+   Highcharts.chart('grap1', {
+      chart: {
+          type: 'line'
+      },
+      title: {
+          text: 'Data {% if nombre_var %} {{nombre_var}}{%else%}No name{%endif%}'
+      },
+        xAxis: {
+          categories: [
+            {% for entry in dataset_once %}'  {{ entry.fecha_hora }}  '{% if not forloop.last %}, {% endif %}{% endfor %}
+          ]
+      },
+      series: [
+          {
+          name: '{% if nombre_var %} {{nombre_var}}{%else%}No name{%endif%}',
+          data: [{% for entry in dataset_once %}{{ entry.valor|stringformat:".1f" }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+          colors: ['green']
+      }
+      
+      ]
+  });  
+            
+    Highcharts.chart('grap2', {
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: 'Data {% if nombre_var %} {{nombre_var}}{%else%}No name{%endif%}'
+      },
+        xAxis: {
+          categories: [
+            {% for entry in dataset_once %}'  {{ entry.fecha_hora }}  '{% if not forloop.last %}, {% endif %}{% endfor %}
+          ]
+      },
+      series: [
+          {
+          name: '{% if nombre_var %} {{nombre_var}}{%else%}No name{%endif%}',
+          data: [{% for entry in dataset_once %}{{ entry.valor|stringformat:".1f" }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+          colors: ['green']
+      }
+      
+      ]
+  });
+            
+   
+            
+            
+        });
+    
+    </script>
+       {% endblock extrajs %}   
+
+    
+</html>

@@ -1,0 +1,26 @@
+ 
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+  Highcharts.chart('container', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Variables de Mysql Datos_Variable'
+      },
+      xAxis: {
+          categories: [
+            {% for entry in dataset %}'{{ entry.nombre }} {{ entry.fecha_hora }}  '{% if not forloop.last %}, {% endif %}{% endfor %}
+          ]
+      },
+      series: [{
+          name: 'Variables',
+          data: [
+            //{% for entry in dataset %} {{ entry.valor }}  {% if not forloop.last %}, {% endif %}{% endfor %}  
+            {% for entry in dataset %}{{ entry.valor }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          colors: ['green','red','blue','yellow']
+      } ]
+  });
+</script>
